@@ -4,14 +4,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import os
 from fake_useragent import UserAgent
-from tqdm.notebook import trange
 import time
 import platform
 from langdetect import detect
 import json
+from tqdm import tqdm
 
 options = webdriver.ChromeOptions()
-# options.add_argument('headless')
+options.add_argument("headless")
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
 # Just for in cast when we need fake-UA (when request blocked)
@@ -138,10 +138,10 @@ data = {}
 
 page = input("How many pages to cralw? (Max 194): ")
 
-for i in range(1, page):
+for i in range(1, int(page) + 1):
     links = get_links(i, lang=True)  # Detect language, and if not English, skip
     names = list(links.keys())
-    for c in trange(0, len(names)):
+    for c in tqdm(range(0, len(names))):
         course = names[c]
         link = links[course]
         data[course] = crawl(link)
