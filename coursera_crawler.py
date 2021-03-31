@@ -84,7 +84,8 @@ def crawl(url):
 
     try:
         if (
-            soup.findAll("div", {"class": "contents_inner"})
+            soup.findAll("div", {"class": "content-inner"})
+            + soup.findAll("div", {"class": "contents_inner"})
             + soup.findAll("p", {"class": "_g61i7y"})
             == []
         ):
@@ -95,13 +96,13 @@ def crawl(url):
         about = " ".join(
             [
                 i.text
-                for i in soup.findAll("div", {"class": "contents_inner"})
+                for i in soup.findAll("div", {"class": "content-inner"})
+                + soup.findAll("div", {"class": "contents_inner"})
                 + soup.findAll("p", {"class": "_g61i7y"})
             ]
         )
     except:
         about = "None"
-
     # There are two templates - one includes extra info-tag
     infos1 = soup.findAll("div", {"class": "_16ni8zai m-b-0"})
     infos2 = soup.findAll("div", {"class": "_16ni8zai m-b-0 m-t-1s"})
@@ -130,6 +131,7 @@ def crawl(url):
         "skills": skills,
         "about": about,
         "type": type_of_doc,
+        "link": url,
     }
 
 
@@ -150,5 +152,5 @@ for i in range(1, int(page) + 1):
 # Save as json file
 import json
 
-with open("coursera.json", "w") as json_file:
+with open("coursera_data.json", "w") as json_file:
     json.dump(data, json_file)
