@@ -14,6 +14,7 @@ options.add_argument("headless")
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
 # Choose right chromedriver of your OS
+
 if platform.system() == "Windows":
     driverpath = os.getcwd() + "/chromedriver.exe"
 else:
@@ -127,7 +128,7 @@ def crawl(url):
 driver = webdriver.Chrome(driverpath, chrome_options=options)
 data = {}
 
-page = input("How many pages to crawl? (Max 194): ")
+page = input("How many pages to crawl? (Max 194...): ")
 
 for i in range(1, int(page) + 1):
     links = get_links(i, lang=True)  # Detect language, and if not English, skip
