@@ -3,11 +3,13 @@ import re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import os
-import time
 import platform
 from langdetect import detect
 import json
 from tqdm import tqdm
+
+# If browser is loading too fast, enable time.sleep option
+# import time
 
 options = webdriver.ChromeOptions()
 options.add_argument("headless")
@@ -131,8 +133,15 @@ data = {}
 page = input("How many pages to crawl? (Max 194...): ")
 
 for i in range(1, int(page) + 1):
+
+    print("Start scraping...")
+
+    if i % 10 == 0:
+        print("Page {} out of {}...".format(i, page))
+
     links = get_links(i, lang=True)  # Detect language, and if not English, skip
     names = list(links.keys())
+
     for c in tqdm(range(0, len(names))):
         course = names[c]
         link = links[course]
@@ -140,7 +149,5 @@ for i in range(1, int(page) + 1):
 
 
 # Save as json file
-import json
-
-with open("coursera_crawled_data.json", "w", encoding="utf-8") as json_file:
+with open("coursera_crawled_complete_data.json", "w", encoding="utf-8") as json_file:
     json.dump(data, json_file)
