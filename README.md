@@ -25,7 +25,7 @@ The current version take:
 <img width="1004" alt="Screen Shot 2021-04-01 at 3 33 56 AM" src="https://user-images.githubusercontent.com/43837843/113193686-37483f80-929b-11eb-8686-e8bffe95904e.png">
 
 # [Some Useful features]
-- If you use chrome, there's 'headless' option supports for faster crawling. Each page takes about 1 min 20 seconds
+- If you use chrome, there's 'headless' option supports for faster crawling. **This takes about 2.5 sec/each courses**
 - There are many courses with various language - with 'langdetect' setting, you can only scrape courses of your language
 
 # [Some Limitations]
