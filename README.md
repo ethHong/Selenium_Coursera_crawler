@@ -1,6 +1,12 @@
 # Coursera Crawler
 Crawler for courser (still WIP)
 
+**How to use:**
+
+- You can simply run coursera_crawler.py
+- If you prefer ipynb, you can use Coursera_crawling.ipynb
+- Package requirements: bs4, langdetect, selenium, platform
+
 # [Description]
 This program is a crawler to scrape course information from : https://www.coursera.org/directory/courses
 The current version take:
