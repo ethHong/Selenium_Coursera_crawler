@@ -3,7 +3,6 @@ import re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import os
-from fake_useragent import UserAgent
 import time
 import platform
 from langdetect import detect
@@ -13,16 +12,6 @@ from tqdm import tqdm
 options = webdriver.ChromeOptions()
 options.add_argument("headless")
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
-
-# Just for in cast when we need fake-UA (when request blocked)
-def mock_user_agent():
-    ua = UserAgent()
-
-    working = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15"
-    working_tail = "(" + working.split("(")[-1]
-    random_head = ua.random.split("(")[0] + "(" + ua.random.split("(")[1]
-    return random_head + working_tail
-
 
 # Choose right chromedriver of your OS
 if platform.system() == "Windows":
@@ -138,7 +127,7 @@ def crawl(url):
 driver = webdriver.Chrome(driverpath, chrome_options=options)
 data = {}
 
-page = input("How many pages to cralw? (Max 194): ")
+page = input("How many pages to crawl? (Max 194): ")
 
 for i in range(1, int(page) + 1):
     links = get_links(i, lang=True)  # Detect language, and if not English, skip
@@ -152,5 +141,5 @@ for i in range(1, int(page) + 1):
 # Save as json file
 import json
 
-with open("coursera_data.json", "w") as json_file:
+with open("coursera_crawled_data.json", "w", encoding="utf-8") as json_file:
     json.dump(data, json_file)
