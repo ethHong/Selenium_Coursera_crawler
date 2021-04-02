@@ -48,8 +48,13 @@ def crawl(url):
     soup = BeautifulSoup(driver.page_source, "lxml")
 
     # Category
-    category1 = soup.findAll("div", {"class": "_1ruggxy"})[1].text
-    category2 = soup.findAll("div", {"class": "_1ruggxy"})[2].text
+
+    try:
+        category1 = soup.findAll("div", {"class": "_1ruggxy"})[1].text
+        category2 = soup.findAll("div", {"class": "_1ruggxy"})[2].text
+    except IndexError:
+        category1 = "None"
+        category2 = "None"
 
     # Rating, if exists
     ratingContainer = soup.findAll(
@@ -130,14 +135,12 @@ def crawl(url):
 driver = webdriver.Chrome(driverpath, chrome_options=options)
 data = {}
 
+start = input("Which page to start?: ")
 page = input("How many pages to crawl? (Max 194...): ")
 
-for i in range(1, int(page) + 1):
+for i in range(int(start), int(page) + 1):
 
     print("Start scraping...")
-
-    if i % 10 == 0:
-        print("Page {} out of {}...".format(i, page))
 
     links = get_links(i, lang=True)  # Detect language, and if not English, skip
     names = list(links.keys())
@@ -147,6 +150,15 @@ for i in range(1, int(page) + 1):
         link = links[course]
         data[course] = crawl(link)
 
+    if i % 10 == 0:
+        print("Page {} out of {}...".format(i, page))
+        # backup:
+
+        with open(
+            "coursera_crawled_backup_{}.json".format(start), "w", encoding="utf-8"
+        ) as json_file:
+            json.dump(data, json_file)
+        print("Saved backup")
 
 # Save as json file
 with open("coursera_crawled_complete_data.json", "w", encoding="utf-8") as json_file:

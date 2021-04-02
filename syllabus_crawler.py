@@ -73,14 +73,12 @@ def crawl(url):
 driver = webdriver.Chrome(driverpath, chrome_options=options)
 data = {}
 
+start = input("Which page to start?: ")
 page = input("How many pages to crawl? (Max 194...): ")
 
-for i in range(1, int(page) + 1):
+for i in range(int(start), int(page) + 1):
 
     print("Start scraping...")
-
-    if i % 10 == 0:
-        print("Page {} out of {}...".format(i, page))
 
     links = get_links(i, lang=True)  # Detect language, and if not English, skip
     names = list(links.keys())
@@ -90,6 +88,15 @@ for i in range(1, int(page) + 1):
         link = links[course]
         data[course] = crawl(link)
 
+    if i % 10 == 0:
+        print("Page {} out of {}...".format(i, page))
+        # backup:
+
+        with open(
+            "coursera_syllabus_backup{}.json".format(start), "w", encoding="utf-8"
+        ) as json_file:
+            json.dump(data, json_file)
+        print("Saved backup")
 
 # Save as json file
 with open("coursera_crawled_syllabus_data.json", "w", encoding="utf-8") as json_file:
