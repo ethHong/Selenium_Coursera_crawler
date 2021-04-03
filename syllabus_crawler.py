@@ -93,7 +93,9 @@ for i in range(int(start), int(page) + 1):
         # backup:
 
         with open(
-            "backup/coursera_syllabus_backup{}.json".format(start), "w", encoding="utf-8"
+            "backup/coursera_syllabus_backup{}.json".format(start),
+            "w",
+            encoding="utf-8",
         ) as json_file:
             json.dump(data, json_file)
         print("Saved backup")
